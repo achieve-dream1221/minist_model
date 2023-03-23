@@ -10,17 +10,18 @@ from model import LeNet
 from data import data_train_loader
 
 if __name__ == '__main__':
-    # 定义LeNet模型
+    num_epochs = 2  # 模型训练轮数
+    momentum = 0.5  # 设置SGD中的冲量
+    # 学习率
+    lr = 0.01  # 定义LeNet模型
     model = LeNet()
     # 切换到训练状态
     model.train()
-    # 学习率
-    lr = 0.01
     # 交叉熵损失函数
     criterion = nn.CrossEntropyLoss()
     # 随机梯度下降优化器
-    optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
-    for epoch in range(2):
+    optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.5)
+    for epoch in range(num_epochs):
         train_loss, correct, total = 0, 0, 0
         for batch_idx, (inputs, targets) in enumerate(data_train_loader):
             outputs = model(inputs)
@@ -32,7 +33,7 @@ if __name__ == '__main__':
             _, predicted = outputs.max(1)
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
-            print(f"epoch: {epoch + 1}/{5}", batch_idx,
+            print(f"epoch: {epoch + 1}/{num_epochs}", batch_idx,
                   len(data_train_loader),
                   f"Loss: {train_loss / (batch_idx + 1):.3f} | Acc: {100. * correct / total:.3f}%({correct}/{total})")
     save_info = {

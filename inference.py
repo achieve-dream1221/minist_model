@@ -30,6 +30,6 @@ if __name__ == '__main__':
             _, predicted = outputs.max(1)
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
-            print(batch_idx,
+            print(batch_idx + 1,
                   len(data_test_loader),
                   f"Loss: {test_loss / (batch_idx + 1):.3f} | Acc: {100. * correct / total:.3f}%({correct}/{total})")

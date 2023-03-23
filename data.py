@@ -12,18 +12,19 @@ __all__ = [
     "data_train_loader",
     "data_test_loader"
 ]
-data_train = MNIST("./data", download=True, transform=transforms.Compose([
-    transforms.Resize((32, 32)),
-    transforms.ToTensor()]
-))
+train_batch_size = 64  # 指定DataLoader在训练集中每批加载的样本数量
+test_batch_size = 128  # 指定DataLoader在测试集中每批加载的样本数量
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize([0.1307], [0.3081])
+])
 
-data_test = MNIST("./data", train=False, transform=transforms.Compose([
-    transforms.Resize((32, 32)),
-    transforms.ToTensor()
-]))
+data_train = MNIST("data", download=True, train=True, transform=transform)
 
-data_train_loader = DataLoader(data_train, batch_size=256, shuffle=True)
-data_test_loader = DataLoader(data_test, batch_size=1024)
+data_test = MNIST("data", download=True, train=False, transform=transform)
+
+data_train_loader = DataLoader(data_train, batch_size=train_batch_size, shuffle=True)
+data_test_loader = DataLoader(data_test, batch_size=test_batch_size, shuffle=False)
 
 # import matplotlib.pyplot as plt
 
