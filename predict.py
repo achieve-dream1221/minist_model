@@ -19,7 +19,7 @@ if __name__ == '__main__':
     model.load_state_dict(save_info['model'])
     # 切换为测试状态
     model.eval()
-    img_path = "5.png"
+    img_path = "img.png"
     # 转换图片
     image = Image.open(img_path).convert('L')
     image = ImageOps.invert(image)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     ])
     image = transform(image)
     image = image.unsqueeze(0)
-    transforms.ToPILImage()(image.squeeze(0)).save(img_path)
+    # transforms.ToPILImage()(image.squeeze(0)).save(img_path)
     with torch.no_grad():
         output = model(image)
         # print(output.squeeze(0))
